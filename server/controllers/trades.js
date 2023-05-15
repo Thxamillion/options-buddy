@@ -1,0 +1,1 @@
+import Trade from "../models/Trade.js";

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-
-const UserSchema = new mongoose.Schema(
+const Schema = mongoose.Schema
+const UserSchema = new Schema(
     {
         username: {
             type: String,
@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema(
             max:50,
             unique: true,
         },
+        date: {
+            type: Date,
+            default: Date.now
+        },
         password: {
             type: String,
             required: true,
@@ -25,8 +29,19 @@ const UserSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
-        trades: {
-            type: Array,
-            default: []
-        }
-    })
+        trades: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Trade'
+          }],
+          following: [{    // users that this user is following
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+          }],
+          followers: [{    // users that are following this user
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+          }]
+    });
+
+const User = mongoose.model("User", UserSchema)
+export default User;
