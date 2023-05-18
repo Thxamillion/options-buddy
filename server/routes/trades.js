@@ -1,5 +1,5 @@
 import express from "express";
-import {getFeedTrades, getUserTrades} from "../controllers/posts.js"
+import {getFeedTrades, getUserTrades} from "../controllers/trades.js"
 import { verifyToken } from "../middleware/auth.js";
 
 

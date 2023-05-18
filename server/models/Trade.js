@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-
+const Schema = mongoose.Schema
 
 
 const TradeSchema = new Schema({
@@ -29,22 +29,24 @@ const TradeSchema = new Schema({
       required: true
     },
     exitPrice: {
-      type: Number,
-      required: true
+      type: Number
     },
     date: {
       type: Date,
       default: Date.now
     },
     profitLoss: {
-      type: Number,
-      required: true
+      type: Number
     },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User'
-    }
+    },
+    note: {
+         type: String 
+        }
   });
   
 
-  module.exports = Trade = mongoose.model('Trade', TradeSchema);
+  const Trade = mongoose.model("Trade", TradeSchema)
+  export default Trade;
