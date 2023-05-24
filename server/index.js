@@ -12,6 +12,8 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import tradeRoutes from "./routes/trades.js";
 import {register } from "./controllers/auth.js";
+import searchRoutes from "./routes/search.js";
+
 
 
 /* config*/
@@ -55,6 +57,7 @@ app.post("/auth/register", register)
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/trades", tradeRoutes);
+app.use("/search", searchRoutes)
 
 
 

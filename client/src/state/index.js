@@ -24,7 +24,7 @@ export const authSlice = createSlice({
             state.token = null;
         },
         setTrades: (state,action) => {
-            state.trades = action.payload.posts;
+            state.trades = action.payload.trades;
         },
         setPost: (state,action) => {
             const updatedTrades = state.trades.map((trade) => {
