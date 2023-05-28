@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box, IconButton, Typography, Select, MenuItem, FormControl, useTheme} from "@mui/material";
-import { Message, DarkMode, LightMode, Notifications, Help, Search,PostAdd, Dashboard } from "@mui/icons-material";
-
+import { Message, DarkMode, LightMode, Notifications, Help, Search,PostAdd, Person2 } from "@mui/icons-material";
+import Link from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
@@ -32,6 +32,7 @@ const Navbar = () => {
         flexShrink: 0,
         display: 'flex',
         flexDirection: 'column',
+        flexGrow: 1,
         alignItems: 'center',
         pt: 2,
         backgroundColor: '#1b1c1c',
@@ -91,10 +92,11 @@ const Navbar = () => {
         <Typography>Add Trade</Typography>
       </IconButton>
       <TradeDialog open={openTradeDialog} handleClose={handleCloseTradeDialog} />
-        <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
-            <Dashboard sx={{ fontSize: "25px", mr: 1 }} />
-            <Typography>Dashboard</Typography>
-        </Box>
+        <IconButton onClick={() => navigate(`/profile/${user.username}`)} sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+
+            <Person2 sx={{ fontSize: "25px", mr: 1 }} />
+            <Typography>Profile</Typography>
+        </IconButton>
         
         <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
             <Message sx={{ fontSize: "25px", mr: 1 }} />

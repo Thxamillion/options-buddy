@@ -1,19 +1,64 @@
 // TradeDialog.js
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel } from "@mui/material";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTrades } from "state";
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 const TradeDialog = ({ open, handleClose }) => {
   const [tradeType, setTradeType] = useState("");
-  const [symbol, setSymbol] = useState("");
+  const [ticker, setTicker] = useState("");
   const [quantity, setQuantity] = useState("");
   const [strikePrice, setStrikePrice] = useState("");
-  const [entryPrice, setEntryPrice] = useState("");
+  const [premium, setPremium] = useState("");
+  const [expiryDate, setExpiryDate] = useState(null);
   const [isAssigned, setIsAssigned] = useState(false);
-  const [notes, setNotes] = useState("");
+  const [note, setNote] = useState("");
+  const dispatch = useDispatch();
+  const { _id,username } = useSelector((state) => state.user);
+
+  const token = useSelector((state) => state.token);
+
 
   const handleSubmit = async () => {
-    // TODO: You might want to do something with these trade details here
-    console.log({tradeType, symbol, quantity, strikePrice, entryPrice, isAssigned, notes});
+    const trade = {
+      tradeType,
+      ticker,
+      quantity,
+      strikePrice,
+      premium,
+      expiryDate,
+      isAssigned,
+      note,
+      userId: _id,  // Assuming _id is the user id
+      username
+    };
+  
+    const response = await fetch(`http://localhost:3001/trades`, { 
+      method: "POST",
+      headers: { 
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(trade),
+    });
+
+    const trades = await response.json();
+    dispatch(setTrades({ trades }));  // Update your state with the new posts
+
+    // Reset state to their initial values
+    setTradeType("");
+    setTicker("");
+    setQuantity("");
+    setStrikePrice("");
+    setExpiryDate("");
+    setPremium("");
+    setIsAssigned(false);
+    setNote("");
     handleClose();
   };
 
@@ -35,13 +80,23 @@ const TradeDialog = ({ open, handleClose }) => {
         <TextField
           autoFocus
           margin="dense"
-          label="Symbol"
+          label="Ticker"
           type="text"
           fullWidth
           variant="standard"
-          value={symbol}
-          onChange={(e) => setSymbol(e.target.value)}
+          value={ticker}
+          onChange={(e) => setTicker(e.target.value)}
         />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
+      <DatePicker
+          label="Expiry Date"
+          value={expiryDate}
+          onChange={(newDate) => setExpiryDate(newDate)}
+          renderInput={(params) => <TextField {...params} fullWidth />}
+        />
+      </DemoContainer>
+    </LocalizationProvider>
         <TextField
           margin="dense"
           label="Quantity"
@@ -51,6 +106,7 @@ const TradeDialog = ({ open, handleClose }) => {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
+        
         <TextField
           margin="dense"
           label="Strike Price"
@@ -62,12 +118,12 @@ const TradeDialog = ({ open, handleClose }) => {
         />
         <TextField
           margin="dense"
-          label="Entry Price"
+          label="Premium Earned"
           type="text"
           fullWidth
           variant="standard"
-          value={entryPrice}
-          onChange={(e) => setEntryPrice(e.target.value)}
+          value={premium}
+          onChange={(e) => setPremium(e.target.value)}
         />
         <FormControlLabel
           control={
@@ -81,12 +137,12 @@ const TradeDialog = ({ open, handleClose }) => {
         />
         <TextField
           margin="dense"
-          label="Notes"
+          label="Note"
           type="text"
           fullWidth
           variant="standard"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
         />
       </DialogContent>
       <DialogActions>

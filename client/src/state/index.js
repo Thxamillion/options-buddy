@@ -12,9 +12,6 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setMode: (state) => {
-            state.mode = state.mode === "light" ? "dark" : "light"
-        },
         setLogin: (state,action) => {
             state.user = action.payload.user;
             state.token = action.payload.token;
@@ -26,7 +23,7 @@ export const authSlice = createSlice({
         setTrades: (state,action) => {
             state.trades = action.payload.trades;
         },
-        setPost: (state,action) => {
+        setTrade: (state,action) => {
             const updatedTrades = state.trades.map((trade) => {
                 if(trade._id === action.payload.trade_id) return action.payload.trade;
                 return trade;
@@ -37,6 +34,6 @@ export const authSlice = createSlice({
 
 })
 
-export const {setMode, setLogin, setLogout, setPosts,setPost} = authSlice.actions;
+export const {setMode, setLogin, setLogout, setTrades,setTrade} = authSlice.actions;
 
 export default authSlice.reducer;
