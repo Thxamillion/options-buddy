@@ -3,7 +3,8 @@ import {
     getUser,
     getUserFollowing,
     followUser,
-    unfollowUser
+    unfollowUser,
+    getUserByUsername
 } from "../controllers/users.js"
 
 import { verifyToken } from "../middleware/auth.js";
@@ -12,13 +13,13 @@ const router = express.Router()
 
 //read
 
-router.get("/:id", verifyToken, getUser)
-router.get("/:id/following", verifyToken, getUserFollowing);
+router.get("/:username", verifyToken, getUserByUsername)
+router.get("/:username/following", verifyToken, getUserFollowing);
 
 // Follow a user
-router.post('/:id/follow', followUser);
+router.post('/:username/follow', followUser);
 
 // Unfollow a user
-router.post('/:id/unfollow', unfollowUser);
+router.post('/:username/unfollow', unfollowUser);
 
 export default router;

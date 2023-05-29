@@ -4,17 +4,24 @@ const Schema = mongoose.Schema
 
 
 const TradeSchema = new Schema({
+    username: {
+      type: String,
+      required: true
+    },
     ticker: {
       type: String,
       required: true
     },
-    type: {
+    tradeType: {
       type: String,
       required: true
     },
     strikePrice: {
       type: Number,
       required: true
+    },
+    priceClosed: {
+      type: Number,
     },
     expiryDate: {
       type: Date,
@@ -24,7 +31,7 @@ const TradeSchema = new Schema({
       type: Number,
       required: true
     },
-    entryPrice: {
+    premium: {
       type: Number,
       required: true
     },

@@ -33,6 +33,12 @@ const UserSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'Trade'
           }],
+        wins: { type: Number,
+             default: 0 
+            },
+          losses: { type: Number,
+                 default: 0 
+                },
           following: [{    // users that this user is following
             type: Schema.Types.ObjectId,
             ref: 'User'
